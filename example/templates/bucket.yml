@@ -4,6 +4,10 @@ Parameters:
     Type: String
     Description: Name of the bucket to create, if not defined then random value will be used
     Default: ''
+  Test:
+    Type: String
+    Description: Name of the bucket to create, if not defined then random value will be used
+    Default: ''
 
 Conditions:
   BucketNameSpecified:

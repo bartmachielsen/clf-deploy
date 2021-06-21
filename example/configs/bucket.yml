@@ -1,5 +1,5 @@
 name: bucket
-template: sample/templates/bucket.yml
+template: example/templates/bucket.yml
 
 tags:
   Name: bucket
