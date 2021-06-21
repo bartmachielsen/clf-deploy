@@ -34,7 +34,10 @@ glob(argv.config, {}, async function (er, files) {
             name: name,
             template: config.template,
             cfParams: config.parameters,
-            tags: config.tags,
+            tags: {
+                ...config.tags,
+                Name: name
+            },
             awsConfig: {
                 region: config.region
             },
