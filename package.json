@@ -1,0 +1,20 @@
+{
+  "name": "clf-deploy",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cfn": "^1.8.1",
+    "envsub": "^4.0.7",
+    "glob": "^7.1.7",
+    "lodash": "^4.17.21",
+    "yaml": "^1.10.2",
+    "yargs": "^17.0.0-candidate.13"
+  },
+  "bin": {
+    "clf-deploy": "./index.js"
+  }
+}

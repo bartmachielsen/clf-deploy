@@ -1,0 +1,8 @@
+name: bucket
+template: sample/templates/bucket.yml
+
+tags:
+  Name: bucket
+
+capabilities:
+  - CAPABILITY_IAM

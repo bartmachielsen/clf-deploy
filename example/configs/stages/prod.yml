@@ -1,0 +1,6 @@
+prefix: bucket-deployment-prod-
+region: eu-west-1
+tags:
+  Project: bucket-deployment
+parameters:
+  Stage: PROD

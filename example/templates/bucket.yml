@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name of the bucket to create, if not defined then random value will be used
+    Default: ''
+
+Conditions:
+  BucketNameSpecified:
+    !Not [!Equals [ !Ref BucketName, '' ]]
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !If [BucketNameSpecified, !Ref BucketName, !Ref AWS::NoValue]
+      AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - DELETE
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: CORSRule1
+            MaxAge: 3600
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: False
+        BlockPublicPolicy: False
+        IgnorePublicAcls: False
+        RestrictPublicBuckets: False
+
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref Bucket
+                - /*
+            Principal: '*'
