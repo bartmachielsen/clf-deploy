@@ -1,11 +1,13 @@
 {
   "name": "clf-deploy",
-  "version": "0.0.2",
+  "description": "Cloudformation Deployment Tool using YAML configuration files",
+  "version": "0.0.3",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "node index.js"
   },
+  "repository": "https://github.com/bartmachielsen/clf-deploy",
   "dependencies": {
     "cfn": "^1.8.1",
     "envsub": "^4.0.7",
