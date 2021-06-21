@@ -7,6 +7,7 @@ const YAML = require('yaml')
 const cfn = require('cfn');
 const fs = require('fs')
 const _ = require('lodash');
+const S3 = require('aws-sdk/clients/s3');
 
 const argv = yargs(hideBin(process.argv))
     .option('config', {
@@ -30,20 +31,31 @@ glob(argv.config, {}, async function (er, files) {
         const name = (config.prefix || '') + config.name || path.basename(file_location, path.extname(file_location))
 
         console.log(`Deploying: '${name}'`)
-        await cfn({
-            name: name,
-            template: config.template,
-            cfParams: config.parameters,
-            tags: {
-                ...config.tags,
-                Name: name
+
+        const match = config.template.match(/s3:\/\/([^\/]+)\/(.+)/)
+        if (match) {
+            console.log(`Downloading from S3: ${config.template}`)
+            const data = await new S3({region: config.region}).getObject({Bucket: match[1], Key: match[2] }).promise();
+            config.template = data.Body.toString('utf-8');
+        }
+
+        await cfn(
+            {
+                name: name,
+                template: config.template,
+                cfParams: config.parameters,
+                tags: {
+                    ...config.tags,
+                    Name: name
+                },
+                awsConfig: {
+                    region: config.region
+                },
+                capabilities: config.capabilities,
+                checkStackInterval: 1000,
             },
-            awsConfig: {
-                region: config.region
-            },
-            capabilities: config.capabilities,
-            checkStackInterval: 1000,
-        });
+            config.template
+        );
 
     }
 })
