@@ -12,7 +12,8 @@
     "glob": "^7.1.7",
     "lodash": "^4.17.21",
     "yaml": "^1.10.2",
-    "yargs": "^17.0.0-candidate.13"
+    "yargs": "^17.0.0-candidate.13",
+    "trim-newlines": "^3.0.1"
   },
   "bin": {
     "clf-deploy": "./index.js"
