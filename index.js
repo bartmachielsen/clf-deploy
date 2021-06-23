@@ -22,11 +22,9 @@ const argv = yargs(hideBin(process.argv))
     .help()
     .argv
 
-
-const baseConfig = argv['base'] ? YAML.parse(fs.readFileSync(argv['base'], 'utf8')): {};
-
 glob(argv.config, {}, async function (er, files) {
     for (let file_location of files) {
+        const baseConfig = argv['base'] ? YAML.parse(fs.readFileSync(argv['base'], 'utf8')): {};
         const config = _.merge(baseConfig, YAML.parse(fs.readFileSync(file_location, 'utf8')));
         const name = (config.prefix || '') + config.name || path.basename(file_location, path.extname(file_location))
 

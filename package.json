@@ -1,7 +1,7 @@
 {
   "name": "clf-deploy",
   "description": "Cloudformation Deployment Tool using YAML configuration files",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
