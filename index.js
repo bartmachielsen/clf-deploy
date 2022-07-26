@@ -28,6 +28,13 @@ glob(argv.config, {}, async function (er, files) {
         const config = _.merge(baseConfig, YAML.parse(fs.readFileSync(file_location, 'utf8')));
         const name = (config.prefix || '') + config.name || path.basename(file_location, path.extname(file_location))
 
+        // Replace variables
+        for (let conf_key in config) {
+            if (config[conf_key].startsWith("!") && config[config[conf_key].replace("!", "")]) {
+                config[conf_key] = config[config[conf_key].replace("!", "")]
+            }
+        }
+
         console.log(`Deploying: '${name}'`)
 
         const match = config.template.match(/s3:\/\/([^\/]+)\/(.+)/)
