@@ -8,6 +8,7 @@ const cfn = require('cfn');
 const fs = require('fs')
 const _ = require('lodash');
 const S3 = require('aws-sdk/clients/s3');
+const {isString} = require("lodash");
 
 const argv = yargs(hideBin(process.argv))
     .option('config', {
@@ -30,7 +31,11 @@ glob(argv.config, {}, async function (er, files) {
 
         // Replace variables
         for (let conf_key in config) {
-            if (config[conf_key].startsWith("!") && config[config[conf_key].replace("!", "")]) {
+            if (
+                isString(config[conf_key]) &&
+                config[conf_key].startsWith("!") &&
+                config[config[conf_key].replace("!", "")]
+            ) {
                 config[conf_key] = config[config[conf_key].replace("!", "")]
             }
         }
