@@ -32,7 +32,7 @@ glob(argv.config, {}, async function (er, files) {
         // Replace variables
         for (let conf_key in config) {
             if (
-                isString(config[conf_key]) &&
+                config[conf_key].startsWith &&
                 config[conf_key].startsWith("!") &&
                 config[config[conf_key].replace("!", "")]
             ) {
