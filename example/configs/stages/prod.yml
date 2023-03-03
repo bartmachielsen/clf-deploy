@@ -4,3 +4,4 @@ tags:
   Project: bucket-deployment
 parameters:
   Stage: PROD
+  PublicBucketName: test-bucket-bart

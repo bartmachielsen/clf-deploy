@@ -46,6 +46,13 @@ glob(argv.config, {}, async function (er, files) {
             }
         }
 
+        if (config.deployment_stages && config.deployment_stages.length > 0) {
+            if (!config.deployment_stages.includes(process.env.DEPLOY_STAGE)) {
+                console.log(`Skipping deployment of '${name}' as it is not in the deploy stages for this environment`)
+                continue;
+            }
+        }
+
         console.log(`Deploying: '${name}'`)
 
         const match = config.template.match(/s3:\/\/([^\/]+)\/(.+)/)

@@ -4,5 +4,8 @@ template: example/templates/bucket.yml
 tags:
   Name: bucket
 
+parameters:
+  BucketName: "!PublicBucketName"
+
 capabilities:
   - CAPABILITY_IAM
