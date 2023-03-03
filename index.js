@@ -7,7 +7,7 @@ const YAML = require('yaml')
 const cfn = require('cfn');
 const fs = require('fs')
 const _ = require('lodash');
-const { S3Client } = require('@aws-sdk/client-s3');
+const S3 = require('aws-sdk/clients/s3');
 
 const argv = yargs(hideBin(process.argv))
     .option('config', {
@@ -57,7 +57,7 @@ glob(argv.config, {}, async function (er, files) {
         const match = config.template.match(/s3:\/\/([^\/]+)\/(.+)/)
         if (match) {
             console.log(`Downloading from S3: ${config.template}`)
-            const data = await new S3Client({region: config.region}).getObject({Bucket: match[1], Key: match[2] }).promise();
+            const data = await new S3({region: config.region}).getObject({Bucket: match[1], Key: match[2] }).promise();
             config.template = data.Body.toString('utf-8');
         }
 
