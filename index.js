@@ -8,7 +8,6 @@ const cfn = require('cfn');
 const fs = require('fs')
 const _ = require('lodash');
 const S3 = require('aws-sdk/clients/s3');
-const {isString} = require("lodash");
 
 const argv = yargs(hideBin(process.argv))
     .option('config', {
@@ -29,7 +28,6 @@ glob(argv.config, {}, async function (er, files) {
         const config = _.merge(baseConfig, YAML.parse(fs.readFileSync(file_location, 'utf8')));
         const name = (config.prefix || '') + config.name || path.basename(file_location, path.extname(file_location))
 
-
         // Replace variables
         if (config.parameters) {
             for (let conf_key in config.parameters) {
@@ -45,15 +43,16 @@ glob(argv.config, {}, async function (er, files) {
                 }
             }
         }
+        const stage = config.parameters['Stage'] || process.env.DEPLOY_STAGE || argv['base'].split('/').pop().split('.').shift();
 
         if (config.deployment_stages && config.deployment_stages.length > 0) {
-            if (!config.deployment_stages.includes(process.env.DEPLOY_STAGE)) {
+            if (!config.deployment_stages.includes(stage)) {
                 console.log(`Skipping deployment of '${name}' as it is not in the deploy stages for this environment`)
                 continue;
             }
         }
 
-        console.log(`Deploying: '${name}'`)
+        console.log(`Deploying: '${name}' (${stage})`)
 
         const match = config.template.match(/s3:\/\/([^\/]+)\/(.+)/)
         if (match) {
