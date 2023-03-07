@@ -7,7 +7,7 @@ const YAML = require('yaml')
 const cfn = require('cfn');
 const fs = require('fs')
 const _ = require('lodash');
-const S3 = require('aws-sdk/clients/s3');
+const S3 = require('@aws-sdk/client-s3');
 
 const argv = yargs(hideBin(process.argv))
     .option('config', {
